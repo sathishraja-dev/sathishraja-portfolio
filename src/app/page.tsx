@@ -1,446 +1,572 @@
 "use client";
 
 import React, { useState } from "react";
-import Projects from "@/components/Projects";
+import { projectsData, ProjectRecord } from "../data/projects";
 
-/**
- * Main Home Page Component for sathishraja.com
- * Consolidates the structural layout sections and injects search-engine schema markup.
- * Built strictly according to Next.js 16 and React 19 specifications.
- */
-export default function Home() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+export default function PremiumConsole() {
+  const [activeTab, setActiveTab] = useState<
+    "playground" | "architecture" | "telemetry"
+  >("playground");
+  const [selectedProject, setSelectedProject] = useState<ProjectRecord>(
+    projectsData[0],
+  );
 
-  // Structured Data (JSON-LD) to force Google to index the identity graph accurately
-  const seoSchema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Person",
-        "@id": "https://sathishraja.com",
-        name: "Sathish Raja",
-        url: "https://sathishraja.com",
-        jobTitle: "Senior Full-Stack & AI Software Engineer",
-        address: {
-          "@type": "PostalAddress",
-          addressCountry: "Singapore",
+  // Simulated Agent Console Log State Engine
+  const [simLog, setSimLog] = useState<string[]>([
+    "[SYSTEM] Console ready. Awaiting initialization input node...",
+  ]);
+  const [isSimulating, setIsSimulating] = useState(false);
+
+  // Overlay Modal States
+  const [isContactOpen, setIsContactOpen] = useState(false);
+  const [contactSubmitted, setContactSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // Form Field States
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const runAgentSimulation = () => {
+    if (isSimulating) return;
+    setIsSimulating(true);
+    setSimLog([]);
+
+    const operationalLogs = [
+      "⏳ [01/04] [GATEWAY] Intercepting secure resume transmission node path...",
+      "⚙️ [02/04] [PARSER] Running pdf2json text tokenizer on local buffer stream...",
+      "🧠 [03/04] [EMBEDDING] Vectorizing semantic token chunks via @langchain/ollama...",
+      "📦 [04/04] [QDRANT] Querying Qdrant DB collection profiles for vector parity...",
+      "⛓️ [SYSTEM] Initializing non-linear LangGraph Multi-Agent Workflow State...",
+      "🤖 [AGENT_01] Recruiter Core: Analyzing experience metrics against target keys...",
+      "🤖 [AGENT_02] Senior Validator: Cross-checking 14+ Years Experience parameters...",
+      "🔥 [WORKER] Queueing asynchronous background validation profile to BullMQ / Redis cluster...",
+      "✅ [SUCCESS] Matching index score generated: 98.4% Match. Dispatching verification notification.",
+    ];
+
+    operationalLogs.forEach((log, index) => {
+      setTimeout(
+        () => {
+          setSimLog((prev) => [...prev, log]);
+          if (index === operationalLogs.length - 1) {
+            setIsSimulating(false);
+          }
         },
-        sameAs: ["https://github.com", "https://linkedin.com"],
-        knowsAbout: [
-          "Node.js",
-          "React.js",
-          "Next.js",
-          "TypeScript",
-          "Generative AI",
-          "LangGraph",
-          "Retrieval-Augmented Generation",
-          "Model Context Protocol",
-          "Vector Databases",
-          "Docker",
-          "System Design",
-        ],
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://sathishraja.com",
-        url: "https://sathishraja.com",
-        name: "Sathish Raja Portfolio",
-        publisher: {
-          "@id": "https://sathishraja.com",
+        (index + 1) * 700,
+      );
+    });
+  };
+
+  const handleContactSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      },
-    ],
+        body: JSON.stringify({ name, email, message }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setContactSubmitted(true);
+        setName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        setErrorMessage(data.error || "Transmission failure encountered.");
+      }
+    } catch (error) {
+      setErrorMessage("Failed to connect to transmission edge nodes.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <>
-      {/* Structural Injection of JSON-LD Schema Graphs for Google Search Spider Optimization */}
+    <div className="min-h-screen bg-[#030712] text-[#F3F4F6] font-sans antialiased selection:bg-[#6366F1] selection:text-white">
+      {/* Structural Schema Markup Graph for SEO Optimization */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(seoSchema) }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "TechArticle",
+            headline:
+              "Sathish Raja - Senior Full-Stack & AI Software Engineer Platform Portfolio",
+            image: "https://sathishraja.com",
+            author: {
+              "@type": "Person",
+              name: "Sathish Raja",
+              jobTitle: "Principal AI & Full-Stack Consultant",
+              address: {
+                "@type": "PostalAddress",
+                addressLocality: "Singapore",
+              },
+            },
+            keywords:
+              "LangGraph, Next.js 16, React 19, Qdrant Database, BullMQ, Redis, Node.js Full-Stack Engineer",
+          }),
+        }}
       />
 
-      {/* FIXED GLASSMORPHISM STICKY HEADER */}
-      <nav className="glassmorphism fixed top-0 left-0 right-0 z-50 border-b border-gray-900">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      {/* Global Interface Navigation Header */}
+      <header className="sticky top-0 z-50 w-full bg-[#0B0F19]/70 backdrop-blur-xl border-b border-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className="h-2.5 w-2.5 rounded-full bg-cyan-400 animate-pulse" />
-            <a
-              href="#"
-              className="text-xl font-bold tracking-tight text-white font-mono"
-            >
-              sathish<span className="text-indigo-500">raja</span>.com
-            </a>
+            <div className="h-2.5 w-2.5 rounded-full bg-[#06B6D4] animate-pulse"></div>
+            <span className="text-lg font-bold tracking-tight text-white font-mono">
+              sathish<span className="text-[#6366F1]">raja</span>.com
+            </span>
           </div>
-
-          {/* Desktop Navigation Link Nodes */}
-          <div className="hidden md:flex items-center space-x-8 text-sm font-mono">
-            <a
-              href="#about"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              01. About Matrix
-            </a>
-            <a
-              href="#projects"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              02. Repositories
-            </a>
-            <a
-              href="#contact"
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              03. Uplink
-            </a>
+          <div className="flex items-center space-x-4">
+            <span className="bg-gray-950 border border-gray-900 text-[10px] text-[#06B6D4] font-mono px-2.5 py-1 rounded-md">
+              LOC: SINGAPORE // AZ: AP-EAST
+            </span>
             <button
-              onClick={() =>
-                alert("Resume download stream initialized successfully.")
-              }
-              className="px-4 py-2 border border-indigo-500 text-indigo-400 rounded-lg text-xs font-semibold hover:bg-indigo-500/10 transition-all duration-300 shadow-[0_0_10px_rgba(99,102,241,0.2)]"
+              type="button"
+              onClick={() => {
+                setIsContactOpen(true);
+                setContactSubmitted(false);
+                setErrorMessage("");
+              }}
+              className="text-xs font-mono bg-[#6366F1]/10 text-[#6366F1] border border-[#6366F1]/30 px-3 py-1.5 rounded-lg hover:bg-[#6366F1] hover:text-white transition-all duration-200 cursor-pointer"
             >
-              Resume.pdf
-            </button>
-          </div>
-
-          {/* Mobile Menu Action Trigger Icon Toggle */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="text-gray-400 hover:text-white focus:outline-none p-1"
-              aria-label="Toggle structural navigation menu drawer"
-            >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                {isMobileMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
+              Contact Node
             </button>
           </div>
         </div>
+      </header>
 
-        {/* Mobile Menu Slide-Out Context Drawer */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-[#030712]/95 border-b border-gray-900 px-4 pt-2 pb-6 space-y-3 font-mono text-sm flex flex-col">
-            <a
-              href="#about"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="py-2 text-gray-400 hover:text-white"
-            >
-              01. About Matrix
-            </a>
-            <a
-              href="#projects"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="py-2 text-gray-400 hover:text-white"
-            >
-              02. Repositories
-            </a>
-            <a
-              href="#contact"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="py-2 text-gray-400 hover:text-white"
-            >
-              03. Uplink
-            </a>
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                alert("Resume download stream initialized successfully.");
-              }}
-              className="w-full mt-2 py-2.5 text-center border border-indigo-500 text-indigo-400 rounded-lg text-xs font-semibold"
-            >
-              Download Resume.pdf
-            </button>
-          </div>
-        )}
-      </nav>
-
-      {/* MAIN VIEWPORT LAYOUT WRAPPER CONTAINER */}
-      <main className="pt-16 overflow-hidden">
-        {/* HERO ELEVATOR PITCH TERMINAL SCREEN */}
-        <section className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 sm:px-6 lg:px-8">
-          <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
-          <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
-
-          <div className="max-w-4xl mx-auto text-center space-y-6 relative z-10">
-            <div className="inline-flex items-center space-x-2 bg-indigo-500/10 border border-indigo-500/30 rounded-full px-4 py-1.5 text-xs text-indigo-400 font-mono">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
-              <span>
-                Singapore-Based • Available for Principal Consulting Modules
-              </span>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-10 space-y-12">
+        {/* Core Hero Overview Matrix Panel */}
+        <section className="bg-[#0B0F19] border border-gray-900 rounded-3xl p-6 sm:p-8 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-[#6366F1]/5 rounded-full blur-[100px] pointer-events-none"></div>
+          <div className="space-y-4 max-w-3xl">
+            <div className="inline-flex items-center space-x-2 bg-gray-950 border border-gray-900 px-3 py-1 rounded-full text-xs font-mono text-[#06B6D4]">
+              <span>🛡️ Secure Production Build Live</span>
             </div>
-
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-none">
-              Engineering Intelligent <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">
-                Full-Stack AI Agents
+            <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
+              Sathish Raja <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366F1] to-[#06B6D4]">
+                Senior Full-Stack & AI Systems Architect
               </span>
             </h1>
-
-            <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto font-mono">
-              Hi, I am <span className="text-white">Sathish Raja</span>. Senior
-              Engineer with 14+ years of experience optimizing system
-              orchestration, core Node.js clusters, and multi-agent frameworks.
+            <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
+              14+ years of professional engineering milestones across Singapore,
+              specializing in distributed server patterns, background container
+              orchestration pipeline setups, and complex non-linear multi-agent
+              runtime graph topologies.
             </p>
-
-            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <a
-                href="#projects"
-                className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-indigo-500 to-cyan-500 text-white font-medium rounded-xl hover:opacity-90 transition-all duration-300 shadow-[0_0_15px_rgba(99,102,241,0.3)] text-center"
-              >
-                Review Systems
-              </a>
-              <a
-                href="#contact"
-                className="w-full sm:w-auto px-8 py-3 bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-300 font-medium rounded-xl transition-all duration-300 text-center"
-              >
-                Establish Uplink
-              </a>
-            </div>
           </div>
         </section>
 
-        {/* BENTO-GRID EXPERTISE & BACKGROUND SECTOR */}
-        <section
-          id="about"
-          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-gray-900"
-        >
-          <div className="mb-16">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-mono">
-              <span className="text-indigo-500">01.</span> Core Capabilities
-              Matrix
-            </h2>
-            <p className="text-gray-400 mt-2 text-sm sm:text-base">
-              Comprehensive skill-distribution mappings pulled from 14+ years of
-              professional code bases.
-            </p>
+        {/* Global Repositories Showcase Section */}
+        <section className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-900">
+            <div>
+              <h2 className="text-xl font-bold text-white font-mono">
+                📦 Systems Portfolio Module
+              </h2>
+              <p className="text-xs text-gray-400 mt-1">
+                Select an active system module target node below to evaluate
+                runtime parameters.
+              </p>
+            </div>
+            {/* Project Picker Control Loop */}
+            <div className="flex flex-wrap gap-2">
+              {projectsData.map((project) => (
+                <button
+                  key={project.id}
+                  onClick={() => {
+                    setSelectedProject(project);
+                    setSimLog([
+                      "[SYSTEM] Context flipped. Awaiting client initialization parameters...",
+                    ]);
+                  }}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all ${
+                    selectedProject.id === project.id
+                      ? "bg-[#6366F1] text-white shadow-md"
+                      : "bg-gray-950 border border-gray-900 text-gray-400 hover:text-white"
+                  }`}
+                >
+                  {project.title}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {/* Core Bio Description Block */}
-            <div className="md:col-span-2 bg-[#0B0F19] p-8 rounded-2xl border border-gray-800 flex flex-col justify-between">
-              <div className="space-y-4">
-                <h3 className="text-lg font-bold text-white font-mono">
-                  Professional Timeline Profile
-                </h3>
-                <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
-                  I specialize in structuring and shipping production-grade
-                  distributed architectures across Singapore. My experience
-                  spans high-throughput web portals for public-sector platforms,
-                  hardware integration layers for autonomous mobile robotics,
-                  and cutting-edge non-linear background workers built via
-                  LangGraph multi-agent runtimes.
-                </p>
-                <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
-                  By standardizing development environments via Docker container
-                  pipelines, I consistently minimize deployment operational
-                  vulnerabilities by 50% while scaling overall data transaction
-                  outputs by 40%.
-                </p>
-              </div>
-              <div className="mt-8 pt-6 border-t border-gray-900 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono text-gray-500">
-                <span>Infrastructure Registry Node: sathishraja.com</span>
-                <span className="text-cyan-400">
-                  Secure TLS Operational Status
+          {/* Interactive Core Multi-Tab Interface Console Base */}
+          <div className="bg-[#0B0F19] border border-gray-900 rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-3">
+            {/* Right-Side Meta Sidebar Block (Technical Breakdown) */}
+            <div className="lg:col-span-1 border-b lg:border-b-0 lg:border-r border-gray-900 p-6 space-y-6 bg-gray-950/40">
+              <div className="space-y-2">
+                <span className="text-[10px] font-mono tracking-widest text-[#06B6D4] uppercase">
+                  {selectedProject.phase}
                 </span>
+                <h3 className="text-lg font-bold text-white">
+                  {selectedProject.title}
+                </h3>
+                <p className="text-xs font-mono text-gray-400">
+                  {selectedProject.subtitle}
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-xs font-mono text-gray-500 uppercase tracking-wider">
+                  // Project Scope Summary
+                </h4>
+                <p className="text-xs text-gray-400 leading-relaxed">
+                  {selectedProject.summary}
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <h4 className="text-xs font-mono text-gray-500 uppercase tracking-wider">
+                  // Integrated Stack Badges
+                </h4>
+                <div className="flex flex-wrap gap-1.5">
+                  {selectedProject.technologies.map((tech) => (
+                    <span
+                      key={tech}
+                      className="bg-gray-950 border border-gray-900 text-[10px] font-mono text-gray-300 px-2 py-0.5 rounded"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 
-            {/* AI Architecture Sub-card */}
-            <div className="bg-[#0B0F19] p-6 rounded-2xl border border-gray-800 hover:border-cyan-500/30 transition-colors duration-300">
-              <h3 className="text-md font-bold text-white font-mono mb-4 text-cyan-400">
-                🤖 Generative AI
-              </h3>
-              <ul className="space-y-3 text-xs sm:text-sm font-mono text-gray-400">
-                <li className="flex items-center space-x-2">
-                  <span className="text-cyan-500">■</span>{" "}
-                  <span>LangGraph Flow Orchestration</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <span className="text-cyan-500">■</span>{" "}
-                  <span>Multi-Agent System Design</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <span className="text-cyan-500">■</span>{" "}
-                  <span>RAG Text Vector Embeddings</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <span className="text-cyan-500">■</span>{" "}
-                  <span>Model Context Protocol (MCP)</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <span className="text-cyan-500">■</span>{" "}
-                  <span>Qdrant Core Database Vectoring</span>
-                </li>
-              </ul>
-            </div>
+            {/* Left-Side Controller Dashboard and Interactive Console Tabs */}
+            <div className="lg:col-span-2 flex flex-col min-h-[450px]">
+              {/* Tab Navigation Bars */}
+              <div className="flex border-b border-gray-900 bg-gray-950/60 p-2 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("playground")}
+                  className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all ${
+                    activeTab === "playground"
+                      ? "bg-gray-900 text-[#06B6D4] border border-gray-800"
+                      : "text-gray-500 hover:text-gray-300"
+                  }`}
+                >
+                  🚀 Inference Playground
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("architecture")}
+                  className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all ${
+                    activeTab === "architecture"
+                      ? "bg-gray-900 text-[#6366F1] border border-gray-800"
+                      : "text-gray-500 hover:text-gray-300"
+                  }`}
+                >
+                  ⚙️ System Topology
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTab("telemetry")}
+                  className={`px-4 py-2 rounded-lg text-xs font-mono font-medium transition-all ${
+                    activeTab === "telemetry"
+                      ? "bg-gray-900 text-emerald-400 border border-gray-800"
+                      : "text-gray-500 hover:text-gray-300"
+                  }`}
+                >
+                  📊 Production Telemetry
+                </button>
+              </div>
 
-            {/* Frontend Architecture Sub-card */}
-            <div className="bg-[#0B0F19] p-6 rounded-2xl border border-gray-800 hover:border-indigo-500/30 transition-colors duration-300">
-              <h3 className="text-md font-bold text-white font-mono mb-4 text-indigo-400">
-                💻 Client UI Stack
-              </h3>
-              <ul className="space-y-3 text-xs sm:text-sm font-mono text-gray-400">
-                <li className="flex items-center space-x-2">
-                  <span className="text-indigo-500">■</span>{" "}
-                  <span>Next.js 16 Server Architecture</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <span className="text-indigo-500">■</span>{" "}
-                  <span>React 19 Application Pipelines</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <span className="text-indigo-500">■</span>{" "}
-                  <span>TypeScript Strict Parameter Layer</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <span className="text-indigo-500">■</span>{" "}
-                  <span>Tailwind CSS v4 Engine UI</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <span className="text-indigo-500">■</span>{" "}
-                  <span>Zustand Central State Caching</span>
-                </li>
-              </ul>
-            </div>
+              {/* Central Dynamic Content Switcher Engine */}
+              <div className="p-6 flex-1 bg-gray-950/20">
+                {/* TAB ONE: INFERENCE RUNTIME PLAYGROUND SIMULATOR */}
+                {activeTab === "playground" && (
+                  <div className="space-y-4 h-full flex flex-col justify-between">
+                    <div className="space-y-2">
+                      <h4 className="text-sm font-bold text-white font-mono text-[#06B6D4]">
+                        Runtime Terminal Streams Simulator
+                      </h4>
+                      <p className="text-xs text-gray-400">
+                        Trigger the verification handler execution script below
+                        to simulate live graph loop sequencing states.
+                      </p>
+                    </div>
 
-            {/* Backend & Devops Sub-card */}
-            <div className="md:col-span-2 bg-[#0B0F19] p-6 rounded-2xl border border-gray-800">
-              <h3 className="text-md font-bold text-white font-mono mb-4 text-purple-400">
-                ⚙️ Server Operations & Systems Optimization
-              </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center font-mono">
-                <div className="bg-[#030712] p-4 rounded-xl border border-gray-900">
-                  <p className="text-[10px] text-gray-500">BACKEND ENGINE</p>
-                  <p className="text-xs font-bold text-white mt-1">
-                    Node.js / Express 5
-                  </p>
-                </div>
-                <div className="bg-[#030712] p-4 rounded-xl border border-gray-900">
-                  <p className="text-[10px] text-gray-500">TASK QUEUEING</p>
-                  <p className="text-xs font-bold text-white mt-1">
-                    BullMQ / Redis Cache
-                  </p>
-                </div>
-                <div className="bg-[#030712] p-4 rounded-xl border border-gray-900">
-                  <p className="text-[10px] text-gray-500">CONTAINER LOGS</p>
-                  <p className="text-xs font-bold text-white mt-1">
-                    Docker Engine Pipeline
-                  </p>
-                </div>
-                <div className="bg-[#030712] p-4 rounded-xl border border-gray-900">
-                  <p className="text-[10px] text-gray-500">
-                    DATABASE INTEGRITY
-                  </p>
-                  <p className="text-xs font-bold text-white mt-1">
-                    PostgreSQL / MongoDB
-                  </p>
-                </div>
+                    {/* Standard Output Code Box Block */}
+                    <div className="bg-black rounded-xl border border-gray-900 p-4 font-mono text-[11px] text-gray-300 space-y-1.5 min-h-[180px] max-h-[220px] overflow-y-auto">
+                      {simLog.map((log, index) => (
+                        <p
+                          key={index}
+                          className={
+                            log.includes("SUCCESS")
+                              ? "text-emerald-400 font-bold"
+                              : log.includes("SYSTEM")
+                                ? "text-[#6366F1]"
+                                : "text-gray-400"
+                          }
+                        >
+                          {log}
+                        </p>
+                      ))}
+                    </div>
+
+                    <div className="pt-2">
+                      <button
+                        type="button"
+                        onClick={runAgentSimulation}
+                        disabled={isSimulating}
+                        className={`w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-[#6366F1] to-[#06B6D4] text-white text-xs font-mono font-bold rounded-xl transition-all shadow-md ${
+                          isSimulating
+                            ? "opacity-50 cursor-not-allowed"
+                            : "hover:opacity-90"
+                        }`}
+                      >
+                        {isSimulating
+                          ? "⚡ Running Graph Operations..."
+                          : "▶ Initialize Secure Client Node Simulation"}
+                      </button>
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB TWO: TOPOLOGY MATRIX MAP PANELS */}
+                {activeTab === "architecture" && (
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-bold text-white font-mono text-[#6366F1]">
+                        Data Ingestion & Integration Topologies
+                      </h4>
+                      <p className="text-xs text-gray-400">
+                        Explicit engineering pathways mapped directly out of
+                        production system parameters.
+                      </p>
+                    </div>
+
+                    {/* Grid Array Mapping Architectural Blocks */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                      <div className="bg-gray-950 p-4 rounded-xl border border-gray-900 space-y-1">
+                        <span className="text-[10px] font-mono text-gray-500 uppercase">
+                          Orchestration Controller
+                        </span>
+                        <p className="text-xs font-bold text-white">
+                          {selectedProject.architecture.orchestration}
+                        </p>
+                      </div>
+                      <div className="bg-gray-950 p-4 rounded-xl border border-gray-900 space-y-1">
+                        <span className="text-[10px] font-mono text-gray-500 uppercase">
+                          Vector Retrieval Matrix
+                        </span>
+                        <p className="text-xs font-bold text-white">
+                          {selectedProject.architecture.vectorDatabase}
+                        </p>
+                      </div>
+                      <div className="bg-gray-950 p-4 rounded-xl border border-gray-900 space-y-1">
+                        <span className="text-[10px] font-mono text-gray-500 uppercase">
+                          Background Workers Queue
+                        </span>
+                        <p className="text-xs font-bold text-white">
+                          {selectedProject.architecture.backgroundWorkers}
+                        </p>
+                      </div>
+                      <div className="bg-gray-950 p-4 rounded-xl border border-gray-900 space-y-1">
+                        <span className="text-[10px] font-mono text-gray-500 uppercase">
+                          Parsing Ingestion Engine
+                        </span>
+                        <p className="text-xs font-bold text-white">
+                          {selectedProject.architecture.parsingEngine}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-950 p-4 rounded-xl border border-gray-900">
+                      <span className="text-[10px] font-mono text-[#6366F1] uppercase block mb-1">
+                        Deep Dive Integration Specifications
+                      </span>
+                      <p className="text-[11px] text-gray-400 leading-relaxed font-sans">
+                        {selectedProject.deepDive}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* TAB THREE: PRODUCTION TELEMETRY GRAPH COUNTERS */}
+                {activeTab === "telemetry" && (
+                  <div className="space-y-4">
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-bold text-white font-mono text-emerald-400">
+                        System Telemetry & Performance Instrumentation
+                      </h4>
+                      <p className="text-xs text-gray-400">
+                        Documented metrics tracing architectural improvements
+                        across project lifecycles.
+                      </p>
+                    </div>
+
+                    {/* Numeric Statistics Displays */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                      <div className="bg-gray-950 p-5 rounded-xl border border-emerald-950/60 shadow-sm relative overflow-hidden group">
+                        <div className="absolute top-0 left-0 h-full w-1 bg-emerald-500"></div>
+                        <span className="text-[10px] font-mono text-gray-500 uppercase tracking-wider">
+                          Transaction Load Flow
+                        </span>
+                        <p className="text-lg font-bold text-white mt-1 font-mono tracking-tight text-emerald-400">
+                          {selectedProject.telemetry.throughput}
+                        </p>
+                      </div>
+
+                      {selectedProject.telemetry.errorReduction && (
+                        <div className="bg-gray-950 p-5 rounded-xl border border-emerald-950/60 shadow-sm relative overflow-hidden group">
+                          <div className="absolute top-0 left-0 h-full w-1 bg-emerald-500"></div>
+                          <span className="text-[10px] font-mono text-gray-500 uppercase tracking-wider">
+                            Fault Reductions
+                          </span>
+                          <p className="text-lg font-bold text-white mt-1 font-mono tracking-tight text-emerald-400">
+                            {selectedProject.telemetry.errorReduction}
+                          </p>
+                        </div>
+                      )}
+
+                      <div className="bg-gray-950 p-5 rounded-xl border border-gray-900 sm:col-span-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono">
+                        <div className="flex items-center space-x-2">
+                          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-ping"></span>
+                          <span className="text-gray-400">
+                            Cluster Location Tracking Nodes:
+                          </span>
+                          <span className="text-white">
+                            {selectedProject.telemetry.activeNodes ||
+                              "Global CDN Edge Clusters"}
+                          </span>
+                        </div>
+                        <span className="text-gray-600">
+                          SSL Security: LET'S ENCRYPT PROVISIONED
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </section>
 
-        {/* PROJECTS COMPONENT EMBED MODULE LAYER */}
-        <section id="projects" className="bg-[#030712]">
-          <Projects />
-        </section>
-
-        {/* SECURE INPUT CONTACT BLOCK */}
-        <section
-          id="contact"
-          className="max-w-4xl mx-auto px-4 py-24 border-t border-gray-900 text-center space-y-8"
-        >
-          <div className="space-y-3">
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-mono">
-              <span className="text-indigo-500">03.</span> Secure Contact
-              Network Node
-            </h2>
-            <p className="text-gray-400 max-w-md mx-auto text-sm sm:text-base">
-              Initiate connection routines directly for enterprise requirements
-              or technical consulting allocations.
-            </p>
-          </div>
-
-          <div className="bg-[#0B0F19] p-6 sm:p-8 rounded-2xl border border-gray-800 text-left max-w-xl mx-auto shadow-2xl">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                alert("Secure submission captured successfully.");
-              }}
-              className="space-y-4"
-            >
-              <div>
-                <label className="block text-[11px] font-mono text-gray-400 uppercase mb-1">
-                  Sender Entity Name
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Hiring Executive"
-                  className="w-full bg-[#030712] border border-gray-800 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-indigo-500 transition-colors"
-                />
-              </div>
-              <div>
-                <label className="block text-[11px] font-mono text-gray-400 uppercase mb-1">
-                  Return Transmission Link (Email)
-                </label>
-                <input
-                  type="email"
-                  required
-                  placeholder="executive@company.com"
-                  className="w-full bg-[#030712] border border-gray-800 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-indigo-500 transition-colors"
-                />
-              </div>
-              <div>
-                <label className="block text-[11px] font-mono text-gray-400 uppercase mb-1">
-                  Message Description Payload
-                </label>
-                <textarea
-                  required
-                  rows={4}
-                  placeholder="Describe your technical module prerequisites here..."
-                  className="w-full bg-[#030712] border border-gray-800 rounded-xl px-4 py-2.5 text-white text-sm focus:outline-none focus:border-indigo-500 transition-colors"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl text-sm transition-all shadow-[0_0_15px_rgba(99,102,241,0.2)] font-mono"
-              >
-                Transmit Secure Payload
-              </button>
-            </form>
-          </div>
-        </section>
-
-        {/* FOOTER TERMINATION MATRIX */}
-        <footer className="max-w-7xl mx-auto px-4 py-8 border-t border-gray-900 flex flex-col sm:flex-row items-center justify-between text-[11px] text-gray-500 font-mono">
+        {/* Traditional Corporate Profile Footnotes */}
+        <footer className="pt-8 border-t border-gray-900 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-gray-500 gap-4">
           <p>
-            &copy; 2026 sathishraja.com. All server execution threads locked.
+            &copy; 2026 sathishraja.com. All server nodes operating within safe
+            bounds.
           </p>
-          <p className="mt-2 sm:mt-0">
-            Node Module Built Using Next.js App Router Pipelines
-          </p>
+          <p>Singapore Registry Systems Engine Cluster Node</p>
         </footer>
       </main>
-    </>
+
+      {/* Expandable Contact Overlay Modal Panel */}
+      {isContactOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm transition-all duration-300">
+          <div className="bg-[#0B0F19] border border-gray-800 rounded-2xl w-full max-w-lg p-6 relative shadow-2xl shadow-[#6366F1]/10 space-y-6">
+            <div className="flex items-center justify-between border-b border-gray-900 pb-3">
+              <div className="flex items-center space-x-2">
+                <div className="h-2 w-2 rounded-full bg-[#6366F1] animate-ping"></div>
+                <h3 className="text-sm font-bold text-white font-mono tracking-tight">
+                  // Secure Contact Uplink
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsContactOpen(false)}
+                className="text-gray-500 hover:text-white font-mono text-xs p-1 cursor-pointer transition-colors"
+              >
+                [CLOSE]
+              </button>
+            </div>
+
+            {errorMessage && (
+              <div className="bg-red-950/50 border border-red-900/50 rounded-xl p-3 text-xs font-mono text-red-400">
+                ⚠️ {errorMessage}
+              </div>
+            )}
+
+            {!contactSubmitted ? (
+              <form onSubmit={handleContactSubmit} className="space-y-4">
+                <div className="space-y-1">
+                  <label className="block text-[10px] font-mono text-gray-400 uppercase">
+                    Identity Name
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="e.g. Hiring Manager"
+                    className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-[#6366F1] transition-colors"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="block text-[10px] font-mono text-gray-400 uppercase">
+                    Return Link Email
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="name@company.com"
+                    className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-[#6366F1] transition-colors"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="block text-[10px] font-mono text-gray-400 uppercase">
+                    Message Payload
+                  </label>
+                  <textarea
+                    required
+                    rows={4}
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    placeholder="Describe project parameters or scheduling windows..."
+                    className="w-full bg-gray-950 border border-gray-800 rounded-xl px-4 py-2.5 text-white text-xs focus:outline-none focus:border-[#6366F1] transition-colors resize-none"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className={`w-full py-2.5 bg-[#6366F1] text-white font-mono font-bold text-xs rounded-xl transition-all shadow-md cursor-pointer ${
+                    isLoading
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:bg-[#6366F1]/90"
+                  }`}
+                >
+                  {isLoading
+                    ? "📡 Transmitting Packet..."
+                    : "Transmit Secure Message Payload"}
+                </button>
+              </form>
+            ) : (
+              <div className="text-center py-6 space-y-4 font-mono">
+                <div className="text-emerald-400 text-sm font-bold">
+                  ✅ Transmission Successful
+                </div>
+                <p className="text-xs text-gray-400 leading-relaxed max-w-sm mx-auto">
+                  Payload broadcast completed smoothly. Secure response routing
+                  will hit your return link address shortly.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setIsContactOpen(false)}
+                  className="px-4 py-2 bg-gray-900 border border-gray-800 rounded-lg text-xs hover:text-white text-gray-400 transition-colors cursor-pointer"
+                >
+                  Return to Console
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
