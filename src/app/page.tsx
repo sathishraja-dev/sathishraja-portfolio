@@ -125,10 +125,33 @@ export default function PremiumConsole() {
               sathish<span className="text-[#6366F1]">raja</span>.com
             </span>
           </div>
-          <div className="flex items-center space-x-4">
-            <span className="bg-gray-950 border border-gray-900 text-[10px] text-[#06B6D4] font-mono px-2.5 py-1 rounded-md">
+          <div className="flex items-center space-x-3">
+            <span className="hidden md:inline-block bg-gray-950 border border-gray-900 text-[10px] text-[#06B6D4] font-mono px-2.5 py-1 rounded-md">
               LOC: SINGAPORE // AZ: AP-EAST
             </span>
+
+            {/* Native Download Resume Button Hook */}
+            <a
+              href="/resume.pdf"
+              download="Sathish_Raja_Resume.pdf"
+              className="text-xs font-mono bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-300 px-3 py-1.5 rounded-lg transition-all duration-200 flex items-center space-x-1.5 group cursor-pointer"
+            >
+              <svg
+                className="h-3.5 w-3.5 text-[#06B6D4] group-hover:text-white transition-colors"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"
+                ></path>
+              </svg>
+              <span>Download CV</span>
+            </a>
+
             <button
               type="button"
               onClick={() => {
