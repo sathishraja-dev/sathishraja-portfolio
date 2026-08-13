@@ -1,0 +1,59 @@
+/* In Tailwind CSS v4, the main import directive encapsulates base, components, and utilities layers automatically */
+@import "tailwindcss";
+
+/* Theme configuration layer defining the custom deep cyberpunk minimalist design tokens for sathishraja.com */
+@theme {
+  --color-cyberdark: #030712;
+  --color-cybercard: #0b0f19;
+  --color-cyberindigo: #6366f1;
+  --color-cybercyan: #06b6d4;
+  --color-cyberoffwhite: #f3f4f6;
+
+  --shadow-neon-indigo: 0 0 15px rgba(99, 102, 241, 0.4);
+  --shadow-neon-cyan: 0 0 15px rgba(6, 180, 212, 0.4);
+}
+
+/* Custom scrollbar and core global browser behaviors tailored for a high-end application developer dashboard layout */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-cyberdark);
+    color: var(--color-cyberoffwhite);
+    font-family:
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      "Helvetica Neue",
+      Arial,
+      sans-serif;
+  }
+
+  /* Custom scrollbar track engine styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--color-cyberdark);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1f2937;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--color-cyberindigo);
+  }
+}
+
+/* Glassmorphism token utility class for real-time header and navigation card backdrops */
+.glassmorphism {
+  background: rgba(11, 15, 25, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
