@@ -6,7 +6,7 @@ import { projectsData, ProjectRecord } from "../data/projects";
 export default function PremiumConsole() {
   const [activeTab, setActiveTab] = useState<
     "playground" | "architecture" | "telemetry"
-  >("playground");
+  >("architecture");
   const [selectedProject, setSelectedProject] = useState<ProjectRecord>(
     projectsData[0],
   );
@@ -152,6 +152,16 @@ export default function PremiumConsole() {
               <span>Download CV</span>
             </a>
 
+            {/* TODO: replace with your actual LinkedIn profile URL */}
+            <a
+              href="https://www.linkedin.com/in/sathish-raja-87199751/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex text-xs font-mono bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-300 px-3 py-1.5 rounded-lg transition-all duration-200 items-center space-x-1.5"
+            >
+              <span>LinkedIn</span>
+            </a>
+
             <button
               type="button"
               onClick={() => {
@@ -161,7 +171,7 @@ export default function PremiumConsole() {
               }}
               className="text-xs font-mono bg-[#6366F1]/10 text-[#6366F1] border border-[#6366F1]/30 px-3 py-1.5 rounded-lg hover:bg-[#6366F1] hover:text-white transition-all duration-200 cursor-pointer"
             >
-              Contact Node
+              Contact
             </button>
           </div>
         </div>
@@ -178,14 +188,19 @@ export default function PremiumConsole() {
             <h1 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
               Sathish Raja <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#6366F1] to-[#06B6D4]">
-                Senior Full-Stack & AI Systems Architect
+                Senior Full-Stack Engineer, Building Production AI Systems
               </span>
             </h1>
             <p className="text-gray-400 text-sm sm:text-base leading-relaxed">
-              14+ years of professional engineering milestones across Singapore,
-              specializing in distributed server patterns, background container
-              orchestration pipeline setups, and complex non-linear multi-agent
-              runtime graph topologies.
+              14+ years shipping full-stack platforms across government,
+              finance, and robotics in Singapore. Now building multi-agent AI
+              systems with LangGraph, RAG, and MCP — most recently an AI hiring
+              platform built solo, end to end.
+            </p>
+            <p className="text-gray-500 text-xs sm:text-sm leading-relaxed font-mono">
+              Cut deployment errors 50% and lifted API throughput 40% on
+              production robotics platforms at Konica Minolta · 10+ production
+              apps shipped across 4 industries
             </p>
           </div>
         </section>
@@ -195,11 +210,11 @@ export default function PremiumConsole() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-gray-900">
             <div>
               <h2 className="text-xl font-bold text-white font-mono">
-                📦 Systems Portfolio Module
+                📦 Featured Projects
               </h2>
               <p className="text-xs text-gray-400 mt-1">
-                Select an active system module target node below to evaluate
-                runtime parameters.
+                Pick a project below to see what it does, how it&apos;s built,
+                and the impact it had.
               </p>
             </div>
             {/* Project Picker Control Loop */}
@@ -280,7 +295,7 @@ export default function PremiumConsole() {
                       : "text-gray-500 hover:text-gray-300"
                   }`}
                 >
-                  🚀 Inference Playground
+                  🚀 Live Simulation
                 </button>
                 <button
                   type="button"
@@ -291,7 +306,7 @@ export default function PremiumConsole() {
                       : "text-gray-500 hover:text-gray-300"
                   }`}
                 >
-                  ⚙️ System Topology
+                  ⚙️ How It&apos;s Built
                 </button>
                 <button
                   type="button"
@@ -302,7 +317,7 @@ export default function PremiumConsole() {
                       : "text-gray-500 hover:text-gray-300"
                   }`}
                 >
-                  📊 Production Telemetry
+                  📊 Impact & Results
                 </button>
               </div>
 
