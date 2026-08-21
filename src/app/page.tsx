@@ -212,6 +212,21 @@ export default function PremiumConsole() {
               production robotics platforms at Konica Minolta · 10+ production
               apps shipped across 4 industries
             </p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {[
+                "Full-Time Roles",
+                "Contract",
+                "Freelance Projects",
+                "Remote",
+              ].map((item) => (
+                <span
+                  key={item}
+                  className="text-[11px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded-full"
+                >
+                  ● Open to {item}
+                </span>
+              ))}
+            </div>
           </div>
         </section>
 
@@ -722,7 +737,7 @@ export default function PremiumConsole() {
           */}
           <div className="bg-[#0B0F19] border border-gray-900 rounded-2xl p-6 text-center">
             <p className="text-sm text-gray-300">
-              Available for permanent,contract and freelance opportunities.
+              Available for freelance and contract opportunities.
             </p>
           </div>
         </section>
@@ -769,6 +784,65 @@ export default function PremiumConsole() {
                 >
                   Get a Custom Quote
                 </button>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* How I Work Section */}
+        <section className="space-y-6">
+          <div className="pb-4 border-b border-gray-900">
+            <h2 className="text-xl font-bold text-white font-mono">
+              🧭 How I Work
+            </h2>
+            <p className="text-xs text-gray-400 mt-1">
+              What working together actually looks like, step by step.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {[
+              {
+                step: "01",
+                title: "Discovery Call",
+                description:
+                  "A short call to understand what you're building and whether it's a fit.",
+              },
+              {
+                step: "02",
+                title: "Proposal & Scope",
+                description:
+                  "A clear scope, timeline, and quote — no surprises once work begins.",
+              },
+              {
+                step: "03",
+                title: "Build",
+                description:
+                  "Regular check-ins as the project progresses, not a black box until launch.",
+              },
+              {
+                step: "04",
+                title: "Launch",
+                description:
+                  "Deployed, tested, and handed over — or fully managed if you prefer.",
+              },
+              {
+                step: "05",
+                title: "Support",
+                description:
+                  "Ongoing support and iteration scoped separately, if you need it.",
+              },
+            ].map((item) => (
+              <div
+                key={item.step}
+                className="bg-[#0B0F19] border border-gray-900 rounded-2xl p-5 space-y-2"
+              >
+                <div className="text-xs font-mono text-[#6366F1]">
+                  {item.step}
+                </div>
+                <h3 className="text-sm font-bold text-white">{item.title}</h3>
+                <p className="text-xs text-gray-400 leading-relaxed">
+                  {item.description}
+                </p>
               </div>
             ))}
           </div>
