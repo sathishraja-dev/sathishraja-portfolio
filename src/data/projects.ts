@@ -120,4 +120,25 @@ export const projectsData: ProjectRecord[] = [
     },
     repositoryLinks: {},
   },
+  {
+    id: "insurance-policy-automation",
+    title: "Insurance Policy Automation",
+    subtitle: "Workflow automation for corporate finance systems",
+    phase: "Shipped / Enterprise Client",
+    summary:
+      "Scripted custom workflow automation for a corporate finance system, replacing manual, repetitive policy-processing steps with scheduled automated runs.",
+    deepDive:
+      "Built scheduled workflow scripts that took over clerical processing tasks in the insurance policy pipeline, reducing the manual workload on the operations team and cutting down processing turnaround time.",
+    technologies: ["Node.js", "Workflow Automation", "Scheduled Jobs"],
+    telemetry: {
+      throughput: "Reduced manual clerical processing load",
+    },
+    architecture: {
+      orchestration: "Scheduled automation scripts",
+      vectorDatabase: "N/A",
+      backgroundWorkers: "Automated workflow processing jobs",
+      parsingEngine: "N/A",
+    },
+    repositoryLinks: {},
+  },
 ];

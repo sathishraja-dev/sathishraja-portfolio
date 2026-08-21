@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { projectsData, ProjectRecord } from "../data/projects";
+import { servicesData, faqData, pricingData } from "../data/extras";
 
 export default function PremiumConsole() {
   const [activeTab, setActiveTab] = useState<
@@ -27,6 +28,8 @@ export default function PremiumConsole() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const runAgentSimulation = () => {
     if (isSimulating) return;
@@ -154,12 +157,19 @@ export default function PremiumConsole() {
 
             {/* TODO: replace with your actual LinkedIn profile URL */}
             <a
-              href="https://www.linkedin.com/in/sathish-raja-87199751/"
+              href="https://www.linkedin.com/in/YOUR-LINKEDIN-HANDLE"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:inline-flex text-xs font-mono bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-300 px-3 py-1.5 rounded-lg transition-all duration-200 items-center space-x-1.5"
             >
               <span>LinkedIn</span>
+            </a>
+
+            <a
+              href="/blog"
+              className="hidden sm:inline-flex text-xs font-mono bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-300 px-3 py-1.5 rounded-lg transition-all duration-200 items-center space-x-1.5"
+            >
+              <span>Blog</span>
             </a>
 
             <button
@@ -202,6 +212,210 @@ export default function PremiumConsole() {
               production robotics platforms at Konica Minolta · 10+ production
               apps shipped across 4 industries
             </p>
+          </div>
+        </section>
+
+        {/* Trust Stats Bar */}
+        <section className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {[
+            { value: "14+", label: "Years Experience" },
+            { value: "10+", label: "Production Applications" },
+            { value: "SG", label: "Singapore Enterprise Experience" },
+            { value: "F/S", label: "Full Stack Developer" },
+          ].map((stat) => (
+            <div
+              key={stat.label}
+              className="bg-[#0B0F19] border border-gray-900 rounded-2xl p-4 text-center space-y-1"
+            >
+              <div className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#6366F1] to-[#06B6D4] font-mono">
+                {stat.value}
+              </div>
+              <div className="text-[11px] text-gray-400 leading-tight">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </section>
+
+        {/* About Section */}
+        <section className="space-y-6">
+          <div className="pb-4 border-b border-gray-900">
+            <h2 className="text-xl font-bold text-white font-mono">👤 About</h2>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-1 bg-[#0B0F19] border border-gray-900 rounded-2xl p-5 space-y-3">
+              <h3 className="text-sm font-bold text-white">Who I Am</h3>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                Senior Software Engineer with 14+ years building full-stack
+                platforms across government, finance, and robotics in Singapore
+                — 10+ production applications shipped in total.
+              </p>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                Most recently, I led the engineering on an Autonomous Mobile
+                Robot platform suite at Konica Minolta, and I'm now building
+                production multi-agent AI systems independently — including an
+                AI hiring platform designed and shipped solo, end to end.
+              </p>
+              <p className="text-xs text-gray-400 leading-relaxed">
+                I work across the full stack, from backend architecture and
+                cloud deployment to the frontend, and now increasingly with
+                AI-agent workflows layered on top of that same foundation.
+              </p>
+            </div>
+            <div className="lg:col-span-2 bg-[#0B0F19] border border-gray-900 rounded-2xl p-5 space-y-4">
+              <h3 className="text-sm font-bold text-white">Technologies</h3>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs">
+                <div>
+                  <div className="text-gray-500 font-mono mb-1.5">
+                    AI &amp; LLM
+                  </div>
+                  <ul className="text-gray-400 space-y-1">
+                    <li>LangGraph</li>
+                    <li>LangChain</li>
+                    <li>RAG</li>
+                    <li>MCP SDK</li>
+                    <li>Qdrant</li>
+                    <li>Ollama</li>
+                  </ul>
+                </div>
+                <div>
+                  <div className="text-gray-500 font-mono mb-1.5">Frontend</div>
+                  <ul className="text-gray-400 space-y-1">
+                    <li>React / Next.js</li>
+                    <li>TypeScript</li>
+                    <li>Zustand</li>
+                    <li>TanStack Query</li>
+                    <li>Tailwind CSS</li>
+                    <li>Framer Motion</li>
+                  </ul>
+                </div>
+                <div>
+                  <div className="text-gray-500 font-mono mb-1.5">Backend</div>
+                  <ul className="text-gray-400 space-y-1">
+                    <li>Node.js / Express</li>
+                    <li>BullMQ</li>
+                    <li>Redis</li>
+                    <li>RESTful APIs</li>
+                    <li>Microservices</li>
+                  </ul>
+                </div>
+                <div>
+                  <div className="text-gray-500 font-mono mb-1.5">Database</div>
+                  <ul className="text-gray-400 space-y-1">
+                    <li>MongoDB</li>
+                    <li>MySQL</li>
+                    <li>PostgreSQL</li>
+                    <li>Redis</li>
+                  </ul>
+                </div>
+                <div>
+                  <div className="text-gray-500 font-mono mb-1.5">
+                    Cloud &amp; DevOps
+                  </div>
+                  <ul className="text-gray-400 space-y-1">
+                    <li>AWS (EC2, S3)</li>
+                    <li>Docker</li>
+                    <li>Nginx</li>
+                    <li>CI/CD</li>
+                  </ul>
+                </div>
+                <div>
+                  <div className="text-gray-500 font-mono mb-1.5">Security</div>
+                  <ul className="text-gray-400 space-y-1">
+                    <li>JWT</li>
+                    <li>Helmet</li>
+                    <li>Zod Validation</li>
+                    <li>Bcrypt</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Services Section */}
+        <section className="space-y-6">
+          <div className="pb-4 border-b border-gray-900">
+            <h2 className="text-xl font-bold text-white font-mono">
+              🛠️ Services
+            </h2>
+            <p className="text-xs text-gray-400 mt-1">
+              What I can build for your team or business.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {servicesData.map((service) => (
+              <div
+                key={service.title}
+                className="bg-[#0B0F19] border border-gray-900 rounded-2xl p-5 space-y-2 hover:border-[#6366F1]/40 transition-colors"
+              >
+                <div className="text-2xl">{service.icon}</div>
+                <h3 className="text-sm font-bold text-white">
+                  {service.title}
+                </h3>
+                <p className="text-xs text-gray-400 leading-relaxed">
+                  {service.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* AI Solutions Section */}
+        <section className="space-y-6">
+          <div className="pb-4 border-b border-gray-900">
+            <h2 className="text-xl font-bold text-white font-mono">
+              🤖 AI Solutions
+            </h2>
+            <p className="text-xs text-gray-400 mt-1">
+              Purpose-built AI systems for business processes — not just generic
+              chat widgets.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {[
+              {
+                icon: "💬",
+                title: "AI Chatbots",
+                description:
+                  "Conversational agents wired to your own data and workflows, not just a generic FAQ bot.",
+              },
+              {
+                icon: "🎯",
+                title: "Lead Generation Bots",
+                description:
+                  "Agents that qualify and route inbound leads automatically, before a human ever gets involved.",
+              },
+              {
+                icon: "🎧",
+                title: "Customer Support Assistants",
+                description:
+                  "AI assistants that resolve common support questions and escalate the rest with full context.",
+              },
+              {
+                icon: "📝",
+                title: "AI Content Automation",
+                description:
+                  "Automated pipelines for generating and organizing content at scale, with a human review step.",
+              },
+              {
+                icon: "🔁",
+                title: "Workflow Automation",
+                description:
+                  "Background agent pipelines that take over repetitive, multi-step business processes.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="bg-[#0B0F19] border border-gray-900 rounded-2xl p-5 space-y-2 hover:border-[#6366F1]/40 transition-colors"
+              >
+                <div className="text-2xl">{item.icon}</div>
+                <h3 className="text-sm font-bold text-white">{item.title}</h3>
+                <p className="text-xs text-gray-400 leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -491,6 +705,131 @@ export default function PremiumConsole() {
               </div>
             </div>
           </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section className="space-y-6">
+          <div className="pb-4 border-b border-gray-900">
+            <h2 className="text-xl font-bold text-white font-mono">
+              💬 Client Testimonials
+            </h2>
+          </div>
+          {/*
+            No client testimonials on file yet. Using an honest interim
+            message instead of placeholder quotes. Once you have real
+            testimonials, replace this block with actual quote cards
+            (see the dashed-card pattern used elsewhere on this page).
+          */}
+          <div className="bg-[#0B0F19] border border-gray-900 rounded-2xl p-6 text-center">
+            <p className="text-sm text-gray-300">
+              Available for permanent,contract and freelance opportunities.
+            </p>
+          </div>
+        </section>
+
+        {/* Pricing Section */}
+        <section className="space-y-6">
+          <div className="pb-4 border-b border-gray-900">
+            <h2 className="text-xl font-bold text-white font-mono">
+              💰 Pricing
+            </h2>
+            <p className="text-xs text-gray-400 mt-1">
+              Every project is scoped individually — reach out for a custom
+              quote.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {pricingData.map((tier) => (
+              <div
+                key={tier.name}
+                className="bg-[#0B0F19] border border-gray-900 rounded-2xl p-5 space-y-3 flex flex-col"
+              >
+                <div>
+                  <h3 className="text-sm font-bold text-white">{tier.name}</h3>
+                  <p className="text-xs text-gray-400 mt-1 leading-relaxed">
+                    {tier.description}
+                  </p>
+                </div>
+                <ul className="text-xs text-gray-400 space-y-1.5 flex-1">
+                  {tier.features.map((feature) => (
+                    <li key={feature} className="flex items-start gap-1.5">
+                      <span className="text-emerald-400">✓</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsContactOpen(true);
+                    setContactSubmitted(false);
+                    setErrorMessage("");
+                  }}
+                  className="w-full py-2 bg-gray-900 hover:bg-[#6366F1] border border-gray-800 hover:border-[#6366F1] text-gray-300 hover:text-white text-xs font-mono rounded-lg transition-all cursor-pointer"
+                >
+                  Get a Custom Quote
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="space-y-6">
+          <div className="pb-4 border-b border-gray-900">
+            <h2 className="text-xl font-bold text-white font-mono">
+              ❓ Frequently Asked Questions
+            </h2>
+          </div>
+          <div className="space-y-2">
+            {faqData.map((faq, index) => (
+              <div
+                key={faq.question}
+                className="bg-[#0B0F19] border border-gray-900 rounded-xl overflow-hidden"
+              >
+                <button
+                  type="button"
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full text-left px-5 py-4 flex items-center justify-between gap-4 cursor-pointer"
+                >
+                  <span className="text-sm font-medium text-white">
+                    {faq.question}
+                  </span>
+                  <span className="text-gray-500 font-mono text-xs shrink-0">
+                    {openFaq === index ? "−" : "+"}
+                  </span>
+                </button>
+                {openFaq === index && (
+                  <div className="px-5 pb-4 text-xs text-gray-400 leading-relaxed">
+                    {faq.answer}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Final CTA Banner */}
+        <section className="bg-[#0B0F19] border border-gray-900 rounded-3xl p-8 sm:p-10 text-center space-y-4 relative overflow-hidden">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-[#6366F1]/5 rounded-full blur-[100px] pointer-events-none"></div>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+            Ready to build your next project?
+          </h2>
+          <p className="text-sm text-gray-400 max-w-xl mx-auto">
+            Reach out with what you're building — I'll get back to you to scope
+            it out.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setIsContactOpen(true);
+              setContactSubmitted(false);
+              setErrorMessage("");
+            }}
+            className="inline-flex items-center justify-center px-6 py-3 bg-[#6366F1] hover:bg-[#4F46E5] text-white text-sm font-semibold rounded-xl transition-all cursor-pointer"
+          >
+            Schedule a Free Consultation
+          </button>
         </section>
 
         {/* Traditional Corporate Profile Footnotes */}
