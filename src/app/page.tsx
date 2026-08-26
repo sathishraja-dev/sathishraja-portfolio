@@ -157,7 +157,7 @@ export default function PremiumConsole() {
 
             {/* TODO: replace with your actual LinkedIn profile URL */}
             <a
-              href="https://www.linkedin.com/in/YOUR-LINKEDIN-HANDLE"
+              href="https://www.linkedin.com/in/sathish-raja-87199751/"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:inline-flex text-xs font-mono bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-300 px-3 py-1.5 rounded-lg transition-all duration-200 items-center space-x-1.5"
