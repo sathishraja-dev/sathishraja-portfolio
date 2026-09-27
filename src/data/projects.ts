@@ -33,7 +33,7 @@ export const projectsData: ProjectRecord[] = [
     id: "smarthire-ai",
     title: "SmartHireAI Platform",
     subtitle: "AI hiring platform that screens candidates automatically",
-    phase: "Final Development / Launching Soon",
+    phase: "Live / Production",
     summary:
       "A multi-tenant AI hiring platform I designed and built solo, with separate dashboards for candidates, recruiters, and hiring managers. Autonomous AI agents parse incoming resumes and rank candidates against role requirements, removing the manual first-pass screen recruiters normally do by hand.",
     deepDive:
@@ -60,7 +60,9 @@ export const projectsData: ProjectRecord[] = [
       backgroundWorkers: "BullMQ / Redis background jobs",
       parsingEngine: "pdf2json resume parsing pipeline",
     },
-    repositoryLinks: {},
+    repositoryLinks: {
+      liveView: "https://smarthire.sathishraja.com",
+    },
   },
   {
     id: "amr-fleet-platform",
