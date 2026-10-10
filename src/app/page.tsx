@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { projectsData, ProjectRecord } from "../data/projects";
 import { servicesData, faqData, pricingData } from "../data/extras";
 
@@ -258,7 +259,21 @@ export default function PremiumConsole() {
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-1 bg-[#0B0F19] border border-gray-900 rounded-2xl p-5 space-y-3">
-              <h3 className="text-sm font-bold text-white">Who I Am</h3>
+              <div className="flex items-center gap-4">
+                <Image
+                  src="/profile.jpg"
+                  alt="Sathish Raja, Senior Full-Stack Engineer"
+                  width={80}
+                  height={80}
+                  className="h-20 w-20 rounded-full object-cover border border-gray-800"
+                />
+                <div>
+                  <h3 className="text-sm font-bold text-white">Who I Am</h3>
+                  <p className="text-[11px] font-mono text-gray-500 mt-0.5">
+                    Sathish Raja · Singapore
+                  </p>
+                </div>
+              </div>
               <p className="text-xs text-gray-400 leading-relaxed">
                 Senior Software Engineer with 14+ years building full-stack
                 platforms across government, finance, and robotics in Singapore
