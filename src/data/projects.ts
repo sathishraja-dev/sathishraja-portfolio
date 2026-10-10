@@ -37,10 +37,11 @@ export const projectsData: ProjectRecord[] = [
     summary:
       "A multi-tenant AI hiring platform I designed and built solo, with separate dashboards for candidates, recruiters, and hiring managers. Autonomous AI agents parse incoming resumes and rank candidates against role requirements, removing the manual first-pass screen recruiters normally do by hand.",
     deepDive:
-      "Agent workflows are coordinated with LangGraph and Ollama, so screening runs as a sequence of independent, reviewable steps rather than one opaque call. Resumes are parsed with pdf2json and embedded into a local Qdrant vector database for semantic candidate-to-role matching. Parsing and ranking run as background jobs on BullMQ and Redis, so the app stays responsive while AI work happens behind the scenes. Agents are also wired through the Model Context Protocol (MCP) to safely read file states, check calendars, and send interview invites on their own.",
+      "The AI Recruiter is orchestrated with LangGraph: it retrieves candidates, evaluates skills, experience and relevance, ranks recommendations, proposes actions, and pauses for human approval before any side effect happens (human-in-the-loop). Resumes are parsed with pdf2json and pdfjs-dist inside BullMQ and Redis background jobs that handle PDF extraction, Google Gemini profile analysis and scoring, so the API never blocks on AI work. Semantic matching uses Gemini embeddings in a Qdrant Cloud vector database with job-filtered search for job-specific candidate retrieval. Through the Model Context Protocol (MCP), agents can create, reschedule and cancel interviews and send candidate emails via Resend, with human approval and duplicate-interview protection. Access is secured with JWT authentication and role-based access control across candidate, admin, recruiter and hiring-manager dashboards.",
     technologies: [
       "LangGraph",
-      "Qdrant DB",
+      "Google Gemini",
+      "Qdrant Cloud",
       "BullMQ",
       "Redis",
       "MCP SDK",
@@ -50,18 +51,56 @@ export const projectsData: ProjectRecord[] = [
       "Tailwind CSS v4",
     ],
     telemetry: {
-      throughput: "+40% API transaction throughput",
-      errorReduction: "50% fewer deployment errors (Dockerized)",
-      activeNodes: "Singapore",
+      throughput: "Human approval required before any AI side effect",
+      errorReduction: "Duplicate-interview protection on scheduling",
+      activeNodes: "Live: Vercel (frontend) + Render (API/worker)",
     },
     architecture: {
-      orchestration: "LangGraph multi-agent workflow",
-      vectorDatabase: "Qdrant vector embeddings",
-      backgroundWorkers: "BullMQ / Redis background jobs",
-      parsingEngine: "pdf2json resume parsing pipeline",
+      orchestration:
+        "LangGraph recruiter agent with human-in-the-loop approval",
+      vectorDatabase: "Qdrant Cloud: Gemini embeddings, job-filtered search",
+      backgroundWorkers:
+        "BullMQ / Redis jobs: PDF extraction, Gemini analysis, scoring",
+      parsingEngine: "pdf2json / pdfjs-dist resume parsing pipeline",
     },
     repositoryLinks: {
       liveView: "https://smarthire.sathishraja.com",
+    },
+  },
+  {
+    id: "codesense-ai",
+    title: "CodeSense AI",
+    subtitle: "Multi-agent AI code review for GitHub pull requests",
+    phase: "Live / V1",
+    summary:
+      "A code review platform that automatically reviews pull requests and publishes contextual feedback as inline GitHub review comments. Built to be a real part of an engineering workflow rather than another chatbot, it removes the manual review bottleneck so engineers can spend their time on more creative work.",
+    deepDive:
+      "When a PR is opened or updated, four specialist AI reviewers analyse it: Security (vulnerabilities and unsafe patterns), Performance (inefficient operations), Code Quality (maintainability, readability, complexity) and Testing (missing tests, edge cases, coverage gaps). Findings are persisted, then a deterministic coordinator deduplicates overlapping findings and ranks them by severity before the final review is published through the GitHub Review API. AI processing deliberately runs outside the webhook request, which gives asynchronous processing, job retries, persistent review state, publication checkpointing and safer handling of temporary AI-provider failures. Around that sit GitHub OAuth, signed HTTP-only sessions, GitHub App onboarding, repository synchronization, per-user repository authorization, structured Gemini responses and a Next.js dashboard, deployed on Vercel and Render with MongoDB Atlas and managed Redis.",
+    technologies: [
+      "Google Gemini",
+      "GitHub Apps",
+      "BullMQ",
+      "Redis",
+      "MongoDB",
+      "Express",
+      "Next.js",
+      "React",
+      "TypeScript",
+      "Node.js",
+    ],
+    telemetry: {
+      throughput: "4 specialist AI reviewers per pull request",
+      errorReduction: "Retry handling for AI-provider failures",
+      activeNodes: "Live at codesense.sathishraja.com",
+    },
+    architecture: {
+      orchestration: "4 specialist agents + deterministic severity coordinator",
+      vectorDatabase: "N/A — MongoDB persists review findings",
+      backgroundWorkers: "BullMQ / Redis review worker (async, with retries)",
+      parsingEngine: "Signed GitHub webhook → structured Gemini responses",
+    },
+    repositoryLinks: {
+      liveView: "https://codesense.sathishraja.com",
     },
   },
   {

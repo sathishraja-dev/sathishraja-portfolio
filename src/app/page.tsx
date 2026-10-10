@@ -155,9 +155,8 @@ export default function PremiumConsole() {
               <span>Download CV</span>
             </a>
 
-            {/* TODO: replace with your actual LinkedIn profile URL */}
             <a
-              href="https://www.linkedin.com/in/YOUR-LINKEDIN-HANDLE"
+              href="https://www.linkedin.com/in/sathish-raja-87199751"
               target="_blank"
               rel="noopener noreferrer"
               className="hidden sm:inline-flex text-xs font-mono bg-gray-900 hover:bg-gray-800 border border-gray-800 text-gray-300 px-3 py-1.5 rounded-lg transition-all duration-200 items-center space-x-1.5"
@@ -269,7 +268,8 @@ export default function PremiumConsole() {
                 Most recently, I led the engineering on an Autonomous Mobile
                 Robot platform suite at Konica Minolta, and I'm now building
                 production multi-agent AI systems independently — including an
-                AI hiring platform designed and shipped solo, end to end.
+                AI hiring platform and a multi-agent AI code review platform,
+                both designed and shipped solo, end to end.
               </p>
               <p className="text-xs text-gray-400 leading-relaxed">
                 I work across the full stack, from backend architecture and
@@ -285,6 +285,7 @@ export default function PremiumConsole() {
                     AI &amp; LLM
                   </div>
                   <ul className="text-gray-400 space-y-1">
+                    <li>Google Gemini</li>
                     <li>LangGraph</li>
                     <li>LangChain</li>
                     <li>RAG</li>
@@ -330,6 +331,7 @@ export default function PremiumConsole() {
                   <ul className="text-gray-400 space-y-1">
                     <li>AWS (EC2, S3)</li>
                     <li>Docker</li>
+                    <li>Vercel / Render</li>
                     <li>Nginx</li>
                     <li>CI/CD</li>
                   </ul>
